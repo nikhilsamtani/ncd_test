@@ -34,7 +34,7 @@
 <p align = 'center' id="chart"></p>
 
 
-<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
 <script src="d3.slider.js"></script>
 <script src="sankey.js"></script>
 <script>
@@ -47,7 +47,7 @@ var margin = {top: 10, right: 10, bottom: 10, left: 10};
 var width = 1000 - margin.left - margin.right;
 var height = 800 - margin.top - margin.bottom;
 
-var formatNumber = d3.format(",.0f"),    // zero decimal places
+var formatNumber = d3.format(",.2f"),    // zero decimal places
     format = function(d) { return formatNumber(d) + " " + units; },
     color = d3.scale.category20();
 
@@ -130,7 +130,7 @@ d3.csv("ncd_data.csv", function(data)
         graphElement.viz.nodes.push({"node":nodeCount,"name":disease});
         query = {'Year':year,'Disease':disease}
         var funding = fundingFilter(data,query);
-        funding = parseFloat(parseFloat(funding[0]['Funding']));
+        funding = parseFloat(funding[0]['Funding']);
         graphElement.viz.links.push({"source":0,"target":linkCount,"value":funding});
         nodeCount=nodeCount+1;
         linkCount=linkCount+1;
