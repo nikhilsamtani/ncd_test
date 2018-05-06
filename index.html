@@ -3,6 +3,7 @@
 <title>SANKEY Experiment</title>
 <link rel="stylesheet" href="d3.slider.css">
 <style>
+
 .node rect {
   cursor: move;
   fill-opacity: .9;
@@ -24,11 +25,14 @@
   font-size: 12px
   }
 
+h1 {
+   font-family: Verdana,Arial,sans-serif; 
+}
 </style>
 <body>
 
 <h1 align='center'>Non-communicable Disease Funding (2010 - 2015)</h1>
-<p id="instructions" align='center'><font color='grey'>Drag slider to select a year</font></p>
+<p id="instructions" align='center'><font color='grey' size="2px">Drag the red circle to select a year</font></p>
 <div align='center' id="slider"></div>
 <p align = 'center' id="chart"></p>
 
@@ -129,7 +133,7 @@ d3.csv("ncd_data.csv", function(data)
         graphElement.viz.nodes.push({"node":nodeCount,"name":disease});
         query = {'Year':year,'Disease':disease}
         var funding = fundingFilter(data,query);
-        funding = parseFloat(funding[0]['Funding']);
+        funding = +funding[0]['Funding'];
         graphElement.viz.links.push({"source":0,"target":linkCount,"value":funding});
         nodeCount=nodeCount+1;
         linkCount=linkCount+1;

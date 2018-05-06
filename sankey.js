@@ -250,7 +250,7 @@ d3.sankey = function() {
     }
 
     function ascendingDepth(a, b) {
-      return a.y - b.y;
+      return b.dy - a.dy;
     }
   }
 

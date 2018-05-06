@@ -2,18 +2,18 @@ d3.slider = function module() {
   "use strict";
 
   var div, min = 0, max = 100, svg, svgGroup, value, classPrefix, axis, 
-  height=40, rect,
-  rectHeight = 12,
+  height=20, rect,
+  rectHeight = 5,
   tickSize = 6,
   margin = {top: 25, right: 25, bottom: 15, left: 25}, 
-  ticks = 0, tickValues, scale, tickFormat, dragger, width, 
+  ticks = 6, tickValues, scale, tickFormat, dragger, width, 
   range = false,
   callbackFn, stepValues, focus;
 
   function slider(selection) {
     selection.each(function() {
       div = d3.select(this).classed('d3slider', true);
-      width = 400;
+      width = 500;
 
       value = value || min; 
       scale = d3.scale.linear().domain([min, max]).range([0, width])
@@ -62,7 +62,7 @@ d3.slider = function module() {
       }
       
       svg.append("g")
-      .attr("transform", "translate(0," + rectHeight + ")")
+      .attr("transform", "translate(" + 0 + "," + (rectHeight+5) + ")")
       .call(axis)
       //.selectAll(".tick")
       //.data(tickValues, function(d) { return d; })
@@ -93,19 +93,28 @@ d3.slider = function module() {
       .attr("class", "draggertext")
       .text(displayValue);
 
-      dragger.append("circle")
-      .attr("class", "dragger-outer")
-      .attr("r", 10)
-      .attr("transform", function(d) {
-        return "translate(0,6)";
-      });
+      // dragger.append("circle")
+      // .attr("class", "dragger-outer")
+      // .attr("r", 10)
+      // .attr("transform", function(d) {
+      //   return "translate(0,6)";
+      // });
       
       dragger.append("circle")
       .attr("class", "dragger-inner")
-      .attr("r", 4)
+      .attr("r", 10)
       .attr("transform", function(d) {
-        return "translate(0,6)";
+        return "translate(0,3)";
       });
+
+      // dragger.append("rect")
+      // .attr("class", "dragger-inner")
+      // .attr("width",80)
+      // .attr("height",10)
+      // .attr("fill","darkred")
+      // // // .attr("transform", function(d) {
+      // // //   return "translate(0,6)";
+      // // });
 
 
       // Enable dragger drag 
@@ -163,7 +172,7 @@ d3.slider = function module() {
       value = newValue;
     }
     var values = [value];
-
+    
     // Move dragger
     svg.selectAll(".dragger").data(values)
     .attr("transform", function(d) {
