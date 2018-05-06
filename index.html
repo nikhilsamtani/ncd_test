@@ -205,7 +205,7 @@ var linkColors = {"1":"#8dd3c7",
       .attr("x", function(d){
         var xpos;
         if(d.node==0) {
-          xpos = d.dx-35
+          xpos = d.dx-45
         } 
         else {
           xpos= d.dx-20
@@ -213,6 +213,7 @@ var linkColors = {"1":"#8dd3c7",
         return xpos})
       .attr("y", function(d) { return (d.dy / 2)-10; })
       .attr("dy", ".35em")
+      .attr("font-weight","bold")
       .attr("transform", null)
       .text(function(d) { return d.name; })
 
@@ -221,13 +222,14 @@ var linkColors = {"1":"#8dd3c7",
       .attr("x", function(d){
         var xpos;
         if(d.node==0) {
-          xpos = d.dx-35
+          xpos = d.dx-30
         } 
         else {
           xpos= d.dx-20
         }
         return xpos})
       .attr("y", function(d) { return (d.dy / 2)+10; })
+//      .attr("font-weight","bold")
       // // .attr("dy", ".35em")
       // .attr("transform", null)
       .text(function(d) { return "$"+formatNumber(d.value)+"M"; })
