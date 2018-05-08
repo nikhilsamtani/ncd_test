@@ -28,6 +28,10 @@
 h1 {
    font-family: Verdana,Arial,sans-serif; 
 }
+label {
+    font-family: Verdana,Arial,sans-serif;  
+    font-size: 12px
+}
 </style>
 <body>
 
@@ -36,20 +40,21 @@ h1 {
 <div align='center' id="slider"></div>
 <br>
 <div id="checkboxes" align="center">
-<input type="checkbox" class="diseaseCheckbox" value="Cancer" checked> Cancer
-<input type="checkbox" class="diseaseCheckbox" value="Cardiovascular" checked> Cardiovascular
-<input type="checkbox" class="diseaseCheckbox" value="Chronic Respiratory" checked> Chronic Respiratory
-<input type="checkbox" class="diseaseCheckbox" value="Dental & Oral Health" checked> Dental & Oral Health
-<input type="checkbox" class="diseaseCheckbox" value="Diabetes" checked> Diabetes
-<input type="checkbox" class="diseaseCheckbox" value="Disability" checked> Disability
-<input type="checkbox" class="diseaseCheckbox" value="Genetic" checked> Genetic
-<input type="checkbox" class="diseaseCheckbox" value="Hematological" checked> Hematological
-<input type="checkbox" class="diseaseCheckbox" value="Kidney" checked> Kidney
-<input type="checkbox" class="diseaseCheckbox" value="Mental Health" checked> Mental Health
-<input type="checkbox" class="diseaseCheckbox" value="Neurological" checked> Neurological
-<input type="checkbox" class="diseaseCheckbox" value="Other" checked> Other
-<input type="checkbox" class="diseaseCheckbox" value="Sensory Organs" checked> Sensory Organs
-<input type="checkbox" class="diseaseCheckbox" value="Substance Use" checked> Substance Use
+<input type="checkbox" class="diseaseCheckbox" value="Cancer" checked><label for="diseaseCheckbox">Cancer</label>
+<input type="checkbox" class="diseaseCheckbox" value="Cardiovascular" checked><label for="diseaseCheckbox">Cardiovascular</label>
+<input type="checkbox" class="diseaseCheckbox" value="Chronic Respiratory" checked><label for="diseaseCheckbox">Chronic Respiratory</label>
+<input type="checkbox" class="diseaseCheckbox" value="Dental & Oral Health" checked><label for="diseaseCheckbox">Dental & Oral Health</label>
+<input type="checkbox" class="diseaseCheckbox" value="Diabetes" checked><label for="diseaseCheckbox">Diabetes</label>
+<input type="checkbox" class="diseaseCheckbox" value="Disability" checked><label for="diseaseCheckbox">Disability</label>
+<input type="checkbox" class="diseaseCheckbox" value="Genetic" checked><label for="diseaseCheckbox">Genetic</label>
+<br>
+<input type="checkbox" class="diseaseCheckbox" value="Hematological" checked><label for="diseaseCheckbox">Hematological</label>
+<input type="checkbox" class="diseaseCheckbox" value="Kidney" checked><label for="diseaseCheckbox">Kidney</label>
+<input type="checkbox" class="diseaseCheckbox" value="Mental Health" checked><label for="diseaseCheckbox">Mental Health</label>
+<input type="checkbox" class="diseaseCheckbox" value="Neurological" checked><label for="diseaseCheckbox">Neurological</label>
+<input type="checkbox" class="diseaseCheckbox" value="Other" checked><label for="diseaseCheckbox">Other</label>
+<input type="checkbox" class="diseaseCheckbox" value="Sensory Organs" checked><label for="diseaseCheckbox">Sensory Organs</label>
+<input type="checkbox" class="diseaseCheckbox" value="Substance Use" checked><label for="diseaseCheckbox">Substance Use</label>
 </div>
 <p align = 'center' id="chart"></p>
 
@@ -209,22 +214,22 @@ function drawViz() {
   d3.selectAll(".node").remove();  
   d3.selectAll(".link").remove();  
 
-  var linkColors = {"1":"#8dd3c7",
-                  "2":"#ffffb3",
-                  "3":"#bebada",
-                  "4":"#fb8072",
-                  "5":"#80b1d3",
-                  "6":"#fdb462",
-                  "7":"#b3de69",
-                  "8":"#fccde5",
-                  "9":"#d9d9d9",
-                  "10":"#bc80bd",
-                  "11":"#fbb4ae",
-                  "12":"#ccebc5",
-                  "13":"#ffed6f",
-                  "14":"#decbe4",
-                  "15":"#fed9a6",
-                  "16":"#fed9a6"
+  var linkColors = {"Cancer":"#8dd3c7",
+                  "Cardiovascular":"#ffffb3",
+                  "Chronic Respiratory":"#bebada",
+                  "Dental & Oral Health":"#fb8072",
+                  "Diabetes":"#80b1d3",
+                  "Disability":"#fdb462",
+                  "Genetic":"#b3de69",
+                  "Hematological ":"#fccde5",
+                  "Kidney":"#d9d9d9",
+                  "Mental Health":"#bc80bd",
+                  "Neurological":"#fbb4ae",
+                  "Other":"#ccebc5",
+                  "Sensory Organs":"#ffed6f",
+                  "Substance Use":"#decbe4"
+//                  "15":"#fed9a6",
+//                  "16":"#fed9a6"
                 }
 
 // add in the links
@@ -235,7 +240,7 @@ function drawViz() {
       .attr("d", path)
       .style("stroke-width", function(d) { return Math.max(1, d.dy); })
       .style("stroke", function(d) {
-         return linkColors[d.target.node]
+         return linkColors[d.target.name]
         })
       .style("fill", "none")
       .sort(function(a, b) { return b.dy - a.dy; });
