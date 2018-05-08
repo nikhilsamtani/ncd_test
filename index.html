@@ -34,20 +34,35 @@ h1 {
 <h1 align='center'>Non-communicable Disease Funding (2010 - 2015)</h1>
 <p id="instructions" align='center'><font color='grey' size="2px">Drag the red circle to select a year</font></p>
 <div align='center' id="slider"></div>
+<br>
+<div id="checkboxes" align="center">
+<input type="checkbox" class="diseaseCheckbox" value="Cancer" checked> Cancer
+<input type="checkbox" class="diseaseCheckbox" value="Cardiovascular" checked> Cardiovascular
+<input type="checkbox" class="diseaseCheckbox" value="Chronic Respiratory" checked> Chronic Respiratory
+<input type="checkbox" class="diseaseCheckbox" value="Dental & Oral Health" checked> Dental & Oral Health
+<input type="checkbox" class="diseaseCheckbox" value="Diabetes" checked> Diabetes
+<input type="checkbox" class="diseaseCheckbox" value="Disability" checked> Disability
+<input type="checkbox" class="diseaseCheckbox" value="Genetic" checked> Genetic
+<input type="checkbox" class="diseaseCheckbox" value="Hematological" checked> Hematological
+<input type="checkbox" class="diseaseCheckbox" value="Kidney" checked> Kidney
+<input type="checkbox" class="diseaseCheckbox" value="Mental Health" checked> Mental Health
+<input type="checkbox" class="diseaseCheckbox" value="Neurological" checked> Neurological
+<input type="checkbox" class="diseaseCheckbox" value="Other" checked> Other
+<input type="checkbox" class="diseaseCheckbox" value="Sensory Organs" checked> Sensory Organs
+<input type="checkbox" class="diseaseCheckbox" value="Substance Use" checked> Substance Use
+</div>
 <p align = 'center' id="chart"></p>
+
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
 <script src="d3.slider.js"></script>
 <script src="sankey.js"></script>
 <script>
-
-
-
 var units = "Widgets";
 
 var margin = {top: 10, right: 10, bottom: 10, left: 10};
-var width = 1000 - margin.left - margin.right;
+var width = 1100 - margin.left - margin.right;
 var height = 800 - margin.top - margin.bottom;
 
 var formatNumber = d3.format(",.2f"),    // zero decimal places
@@ -88,10 +103,14 @@ function fundingFilter(list, query) {
     return fundingFilterKeys.every(key => !!~query[key].indexOf(item[key]));
   });
 }
+
 // load the data
 d3.csv("ncd_data.csv", function(data)
   {
+   
+   function prepareData(data) {
 
+    var graph = []
     var yearArray = [];
     data.forEach(function(row) {
       yearArray.push(row['Year'])
@@ -101,57 +120,86 @@ d3.csv("ncd_data.csv", function(data)
 
     var diseaseArray = [];
     data.forEach(function(row) {
-      diseaseArray.push(row['Disease'])
-    })
+      if(getSelectedDiseases().includes(row['Disease'])) {
+              diseaseArray.push(row['Disease'])        
+      }
+    });
 
     diseaseArray = Array.from(new Set(diseaseArray));
 
     diseaseArray = diseaseArray.filter(disease => disease != "Multiple NCDs" && disease != '#N/A');
 
-     // diseaseArray = ['Cancer',
-     //                 'Cardiovascular',
-     //                 'Chronic Respiratory',
-     //                 'Dental & Oral Health',
-     //                 'Diabetes',
-     //                 'Disability',
-     //                 'Genetic',
-     //                 'Hematological',
-     //                 'Kidney',
-     //                 'Mental Health'
-     //                ]
-
-   var graph = [];
-
-
-   yearArray.forEach(function(year) {
+     yearArray.forEach(function(year) {
      var graphElement = {};
      graphElement.year = year;
      graphElement.viz = {"nodes":[{"node":0,"name":"Total Funding"}],"links":[]};
      var nodeCount = 1;
      var linkCount = 1;
      diseaseArray.forEach(function(disease) {
-        graphElement.viz.nodes.push({"node":nodeCount,"name":disease});
-        query = {'Year':year,'Disease':disease}
-        var funding = fundingFilter(data,query);
-        funding = +funding[0]['Funding'];
-        graphElement.viz.links.push({"source":0,"target":linkCount,"value":funding});
-        nodeCount=nodeCount+1;
-        linkCount=linkCount+1;
+
+          graphElement.viz.nodes.push({"node":nodeCount,"name":disease});
+          query = {'Year':year,'Disease':disease}
+          var funding = fundingFilter(data,query);
+          funding = +funding[0]['Funding'];
+          graphElement.viz.links.push({"source":0,"target":linkCount,"value":funding});
+          nodeCount=nodeCount+1;
+          linkCount=linkCount+1;
      });
      graph.push(graphElement)
    });
+   return graph;
+ }
 
-    var nodes;
-    var links;
- 
- 
- 
-    graph.forEach(function(item){
+function getSelectedDiseases() {
+    var selectedDiseases = [];
+
+  d3.selectAll(".diseaseCheckbox").each(function(box) {
+    box = d3.select(this);
+    if(box.property("checked")) {
+      selectedDiseases.push(box.property("value"))
+    }  
+ });
+ return selectedDiseases;
+}
+
+function filterData(nodes,links) {
+
+  console.log(nodes)
+  console.log(links)
+
+  nodes.forEach()
+  // graph.forEach(function(item){
+  //      item.viz.nodes.forEach(function(node) {
+  //         if(getSelectedDiseases().includes(node.name))
+  //         {
+  //           nodes.push(node) 
+  //           if(node.node == item.viz.links.target) {
+  //             links.push(item.viz.links);                         
+  //           }
+  //         }
+  //       });
+  //     });
+  // return [nodes,links];
+  }
+
+function drawViz() {
+
+   var nodes = []
+   var links = []
+
+   var graph = prepareData(data)
+
+   graph.forEach(function(item){
       if(year==item.year){
         nodes = item.viz.nodes
         links = item.viz.links
       }
     });
+
+  // var filteredData = filterData(nodes,links);
+  // nodes = filteredData[0]
+  // links = filteredData[1]
+
 
     sankey
       .nodes(nodes)
@@ -161,7 +209,7 @@ d3.csv("ncd_data.csv", function(data)
   d3.selectAll(".node").remove();  
   d3.selectAll(".link").remove();  
 
-var linkColors = {"1":"#8dd3c7",
+  var linkColors = {"1":"#8dd3c7",
                   "2":"#ffffb3",
                   "3":"#bebada",
                   "4":"#fb8072",
@@ -198,7 +246,7 @@ var linkColors = {"1":"#8dd3c7",
     .enter().append("g")
       .attr("class", "node")
       .attr("transform", function(d) { 
-		  return "translate(" + d.x + "," + d.y + ")"; })
+      return "translate(" + d.x + "," + d.y + ")"; })
  
 // add in the title for the nodes
   node.append("text")
@@ -229,15 +277,16 @@ var linkColors = {"1":"#8dd3c7",
         }
         return xpos})
       .attr("y", function(d) { return (d.dy / 2)+10; })
-//      .attr("font-weight","bold")
-      // // .attr("dy", ".35em")
-      // .attr("transform", null)
-      .text(function(d) { return "$"+formatNumber(d.value)+"M"; })
+      .text(function(d) { return "$"+formatNumber(d.value)+"M"; });
 
+  }
+    
+d3.selectAll(".diseaseCheckbox")
+  .on("change",drawViz)
 
+drawViz()
  });
 }
 </script>
-
 </body>
 </html>
