@@ -40,21 +40,34 @@ label {
 <div align='center' id="slider"></div>
 <br>
 <div id="checkboxes" align="center">
-<input type="checkbox" class="diseaseCheckbox" value="Cancer" checked><label for="diseaseCheckbox">Cancer</label>
-<input type="checkbox" class="diseaseCheckbox" value="Cardiovascular" checked><label for="diseaseCheckbox">Cardiovascular</label>
-<input type="checkbox" class="diseaseCheckbox" value="Chronic Respiratory" checked><label for="diseaseCheckbox">Chronic Respiratory</label>
-<input type="checkbox" class="diseaseCheckbox" value="Dental & Oral Health" checked><label for="diseaseCheckbox">Dental & Oral Health</label>
-<input type="checkbox" class="diseaseCheckbox" value="Diabetes" checked><label for="diseaseCheckbox">Diabetes</label>
-<input type="checkbox" class="diseaseCheckbox" value="Disability" checked><label for="diseaseCheckbox">Disability</label>
-<input type="checkbox" class="diseaseCheckbox" value="Genetic" checked><label for="diseaseCheckbox">Genetic</label>
+<input type="checkbox" class="diseaseCheckbox" id="Cancer Checkbox" value="Cancer" checked><label for="Cancer Checkbox">Cancer</label>
+&nbsp;
+<input type="checkbox" class="diseaseCheckbox" id="Cardiovascular Checkbox" value="Cardiovascular" checked><label for="Cardiovascular Checkbox">Cardiovascular</label>
+&nbsp;
+<input type="checkbox" class="diseaseCheckbox" id="Chronic Respiratory Checkbox" value="Chronic Respiratory" checked><label for="Chronic Respiratory Checkbox">Chronic Respiratory</label>
+&nbsp;
+<input type="checkbox" class="diseaseCheckbox" id="Dental & Oral Health Checkbox" value="Dental & Oral Health" checked><label for="Dental & Oral Health Checkbox">Dental & Oral Health</label>
+&nbsp;
+<input type="checkbox" class="diseaseCheckbox" id="Diabetes Checkbox" value="Diabetes" checked><label for="Diabetes Checkbox">Diabetes</label>
+&nbsp;
+<input type="checkbox" class="diseaseCheckbox" id="Disability Checkbox" value="Disability" checked><label for="Disability Checkbox">Disability</label>
+&nbsp;
+<input type="checkbox" class="diseaseCheckbox" id="Genetic Checkbox" value="Genetic" checked><label for="Genetic Checkbox">Genetic</label>
 <br>
-<input type="checkbox" class="diseaseCheckbox" value="Hematological" checked><label for="diseaseCheckbox">Hematological</label>
-<input type="checkbox" class="diseaseCheckbox" value="Kidney" checked><label for="diseaseCheckbox">Kidney</label>
-<input type="checkbox" class="diseaseCheckbox" value="Mental Health" checked><label for="diseaseCheckbox">Mental Health</label>
-<input type="checkbox" class="diseaseCheckbox" value="Neurological" checked><label for="diseaseCheckbox">Neurological</label>
-<input type="checkbox" class="diseaseCheckbox" value="Other" checked><label for="diseaseCheckbox">Other</label>
-<input type="checkbox" class="diseaseCheckbox" value="Sensory Organs" checked><label for="diseaseCheckbox">Sensory Organs</label>
-<input type="checkbox" class="diseaseCheckbox" value="Substance Use" checked><label for="diseaseCheckbox">Substance Use</label>
+<input type="checkbox" class="diseaseCheckbox" id="Hematological Checkbox" value="Hematological" checked><label for="Hematological Checkbox">Hematological</label>
+&nbsp;
+<input type="checkbox" class="diseaseCheckbox" id="Kidney Checkbox" value="Kidney" checked><label for="Kidney Checkbox">Kidney</label>
+&nbsp;
+<input type="checkbox" class="diseaseCheckbox" id="Mental Health Checkbox" value="Mental Health" checked><label for="Mental Health Checkbox">Mental Health</label>
+&nbsp;
+<input type="checkbox" class="diseaseCheckbox" id="Neurological Checkbox" value="Neurological" checked><label for="Neurological Checkbox">Neurological</label>
+&nbsp;
+<input type="checkbox" class="diseaseCheckbox" id="Other Checkbox" value="Other" checked><label for="Other Checkbox">Other</label>
+&nbsp;
+<input type="checkbox" class="diseaseCheckbox" id="Sensory Organs Checkbox" value="Sensory Organs" checked><label for="Sensory Organs Checkbox">Sensory Organs</label>
+&nbsp;
+<input type="checkbox" class="diseaseCheckbox" id="Substance Use Checkbox" value="Substance Use" checked><label for="Substance Use Checkbox">Substance Use</label>
+&nbsp;
 </div>
 <p align = 'center' id="chart"></p>
 
@@ -167,26 +180,6 @@ function getSelectedDiseases() {
  return selectedDiseases;
 }
 
-function filterData(nodes,links) {
-
-  console.log(nodes)
-  console.log(links)
-
-  nodes.forEach()
-  // graph.forEach(function(item){
-  //      item.viz.nodes.forEach(function(node) {
-  //         if(getSelectedDiseases().includes(node.name))
-  //         {
-  //           nodes.push(node) 
-  //           if(node.node == item.viz.links.target) {
-  //             links.push(item.viz.links);                         
-  //           }
-  //         }
-  //       });
-  //     });
-  // return [nodes,links];
-  }
-
 function drawViz() {
 
    var nodes = []
@@ -200,11 +193,6 @@ function drawViz() {
         links = item.viz.links
       }
     });
-
-  // var filteredData = filterData(nodes,links);
-  // nodes = filteredData[0]
-  // links = filteredData[1]
-
 
     sankey
       .nodes(nodes)
