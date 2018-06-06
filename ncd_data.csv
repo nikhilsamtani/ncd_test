@@ -13,8 +13,8 @@ Year,Disease,Funding
 2010,Neurological,1.64858846
 2010,Other,28.88037695
 2010,Sensory Organs,165.9499958
+2010,Integrated Funding,5.295607925
 2010,Substance Use,2.61892524
-2010,#N/A,5.295607925
 2011,Cancer,21.57673834
 2011,Cardiovascular,14.61230184
 2011,Chronic Respiratory,12.53509852
@@ -30,7 +30,7 @@ Year,Disease,Funding
 2011,Other,30.50705803
 2011,Sensory Organs,87.54152561
 2011,Substance Use,0.771499361
-2011,#N/A,7.110891177
+2011,Integrated Funding,7.110891177
 2012,Cancer,79.97290266
 2012,Cardiovascular,17.8773084
 2012,Chronic Respiratory,10.8841547
@@ -46,7 +46,7 @@ Year,Disease,Funding
 2012,Other,27.0682525
 2012,Sensory Organs,155.8095404
 2012,Substance Use,1.91984729
-2012,#N/A,17.01609126
+2012,Integrated Funding,17.01609126
 2013,Cancer,142.6579363
 2013,Cardiovascular,27.07988321
 2013,Chronic Respiratory,4.254155878
@@ -62,7 +62,7 @@ Year,Disease,Funding
 2013,Other,30.37016767
 2013,Sensory Organs,211.7101851
 2013,Substance Use,1.586371417
-2013,#N/A,10.91624106
+2013,Integrated Funding,10.91624106
 2014,Cancer,45.64357591
 2014,Cardiovascular,18.72530996
 2014,Chronic Respiratory,4.030893874
@@ -78,7 +78,7 @@ Year,Disease,Funding
 2014,Other,29.59345181
 2014,Sensory Organs,449.4679994
 2014,Substance Use,2.866038632
-2014,#N/A,62.52669947
+2014,Integrated Funding,62.52669947
 2015,Cancer,52.44906082
 2015,Cardiovascular,8.858316493
 2015,Chronic Respiratory,3.580382393
@@ -94,4 +94,4 @@ Year,Disease,Funding
 2015,Other,47.66359002
 2015,Sensory Organs,497.9106086
 2015,Substance Use,2.137626568
-2015,#N/A,33.24462513
+2015,Integrated Funding,33.24462513

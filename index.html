@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>SANKEY Experiment</title>
-<link rel="stylesheet" href="d3.slider.css">
+<title>Non-communicable Disease Funding (2010 - 2015)</title>
+<link rel="stylesheet" href="slide.css">
 <style>
-
 .node rect {
   cursor: move;
   fill-opacity: .9;
@@ -32,11 +31,15 @@ label {
     font-family: Verdana,Arial,sans-serif;  
     font-size: 12px
 }
+#credits
+{
+  font-size: 12px;
+}
 </style>
 <body>
 
 <h1 align='center'>Non-communicable Disease Funding (2010 - 2015)</h1>
-<p id="instructions" align='center'><font color='grey' size="2px">Drag the red circle to select a year</font></p>
+<p id="instructions" align='center'><font color='grey' size="2px">Drag the blue circle to select a year</font></p>
 <div align='center' id="slider"></div>
 <br>
 <div id="checkboxes" align="center">
@@ -68,42 +71,49 @@ label {
 &nbsp;
 <input type="checkbox" class="diseaseCheckbox" id="Substance Use Checkbox" value="Substance Use" checked><label for="Substance Use Checkbox">Substance Use</label>
 &nbsp;
+<input type="checkbox" class="diseaseCheckbox" id="Integrated Funding Checkbox" value="Integrated Funding"><label for="Integrated Funding Checkbox">Integrated Funding</label>
+&nbsp;
+<input type="checkbox" class="diseaseCheckbox" id="Multiple NCDs Checkbox" value="Multiple NCDs"><label for="Multiple NCDs Checkbox">Multiple NCDs</label>
+&nbsp;
+
 </div>
 <p align = 'center' id="chart"></p>
-
-
+<div id= "credits">
+Credits: Code re-used from 
+<a href="https://leanpub.com/D3-Tips-and-Tricks">Malcolm Maclean</a>
+ | 
+<a href="http://bl.ocks.org/d3noob/c9b90689c1438f57d649">d3noob</a>
+ | 
+<a href="https://github.com/d3/d3-sankey">Jason Davies, Mike Bostock</a>
+ | 
+<a href="http://sujeetsr.github.io/d3.slider/">Sujeet Sreenivasan</a>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-<script src="d3.slider.js"></script>
-<script src="sankey.js"></script>
+<script src="slide.js"></script>
+<script src="flows.js"></script>
 <script>
-var units = "Widgets";
 
 var margin = {top: 10, right: 10, bottom: 10, left: 10};
 var width = 1100 - margin.left - margin.right;
 var height = 800 - margin.top - margin.bottom;
 
-var formatNumber = d3.format(",.2f"),    // zero decimal places
-    format = function(d) { return formatNumber(d) + " " + units; },
+var formatNumber = d3.format(",.1f"),    // zero decimal places
     color = d3.scale.category20();
 
-// append the svg canvas to the page
 var svg = d3.select("#chart").append("svg")
    .attr("width", width + margin.left + margin.right)
    .attr("height", height + margin.top + margin.bottom)
-            // .attr("viewBox", "0 0 " + width + " " + height )
-            // .attr("preserveAspectRatio", "xMidYMid meet")
         .append("g")
         .attr("transform", 
               "translate(" + margin.left + "," + margin.top + ")");
 
-// Set the sankey diagram properties
 var sankey = d3.sankey()
     .nodeWidth(36)
     .nodePadding(40)
     .size([width, height]);
 
-var path = sankey.link();
+var path = sankey.connect();
 
 var formatter = d3.format(".0f");
             var tickFormatter = function(d) {
@@ -118,14 +128,13 @@ function filterByYear(sl){
 function fundingFilter(list, query) {
   const fundingFilterKeys = Object.keys(query);
   return list.filter((item) => {
-    return fundingFilterKeys.every(key => !!~query[key].indexOf(item[key]));
+    return fundingFilterKeys.every(key =>   !!~query[key].indexOf(item[key]));
   });
 }
 
-// load the data
+// load data
 d3.csv("ncd_data.csv", function(data)
   {
-   
    function prepareData(data) {
 
     var graph = []
@@ -145,9 +154,8 @@ d3.csv("ncd_data.csv", function(data)
 
     diseaseArray = Array.from(new Set(diseaseArray));
 
-    diseaseArray = diseaseArray.filter(disease => disease != "Multiple NCDs" && disease != '#N/A');
 
-     yearArray.forEach(function(year) {
+    yearArray.forEach(function(year) {
      var graphElement = {};
      graphElement.year = year;
      graphElement.viz = {"nodes":[{"node":0,"name":"Total Funding"}],"links":[]};
@@ -215,12 +223,12 @@ function drawViz() {
                   "Neurological":"#fbb4ae",
                   "Other":"#ccebc5",
                   "Sensory Organs":"#ffed6f",
-                  "Substance Use":"#decbe4"
-//                  "15":"#fed9a6",
-//                  "16":"#fed9a6"
+                  "Substance Use":"#decbe4",
+                  "Integrated Funding":"#4daf4a",
+                  "Multiple NCDs":"#fed9a6"
                 }
 
-// add in the links
+//add diseases and funding flows
   var link = svg.append("g").selectAll(".link")
       .data(links)
     .enter().append("path")
@@ -233,7 +241,6 @@ function drawViz() {
       .style("fill", "none")
       .sort(function(a, b) { return b.dy - a.dy; });
 
-// add in the nodes
   var node = svg.append("g").selectAll(".node")
       .data(nodes)
     .enter().append("g")
@@ -241,7 +248,7 @@ function drawViz() {
       .attr("transform", function(d) { 
       return "translate(" + d.x + "," + d.y + ")"; })
  
-// add in the title for the nodes
+//display disease names
   node.append("text")
       .attr("x", function(d){
         var xpos;
@@ -258,7 +265,7 @@ function drawViz() {
       .attr("transform", null)
       .text(function(d) { return d.name; })
 
-// add in the calculations for the nodes
+//display disease funding
   node.append("text")
       .attr("x", function(d){
         var xpos;
@@ -273,13 +280,15 @@ function drawViz() {
       .text(function(d) { return "$"+formatNumber(d.value)+"M"; });
 
   }
-    
+  
 d3.selectAll(".diseaseCheckbox")
   .on("change",drawViz)
 
-drawViz()
+drawViz();
  });
+
 }
+
 </script>
 </body>
 </html>

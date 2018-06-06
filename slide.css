@@ -50,7 +50,7 @@
 }
 
 .dragger-inner {
-  fill: darkred;
+  fill: steelblue;
   stroke: none;
   z-index: 3;
 }
